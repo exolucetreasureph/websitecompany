@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exoluce Treasure</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#0066cc", secondary: "#004999" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <link href="style.css" rel="stylesheet"/>
+  </head>
+  <body class="bg-white">
+    <!-- Login/Registration Screen -->
+    <div
+      id="auth-screen"
+      class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center px-6"
+    >
+      <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+          <h1 class="font-['Pacifico'] text-3xl text-black mb-2">
+            Exoluce Treasure
+          </h1>
+          <p class="text-gray-600">Discover your unique style</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+          <div class="flex flex-col mb-4">
+            <div class="flex">
+              <button
+                id="login-tab"
+                class="flex-1 py-2 text-center border-b-2 border-primary text-primary font-medium"
+              >
+                Login
+              </button>
+              <button id="register-tab" class="flex-1 py-2 text-center border-b-2 border-gray-200 text-gray-500">
+                Register
+              </button>
+            </div>
+          </div>
+
+          <form id="login-form" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer"
+            >
+              Login
+            </button>
+            <a href="#" class="text-primary text-sm mt-2 text-right">Forgot Password?</a>
+          </form>
+          <form id="register-form" class="hidden space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Full Name</label
+              >
+              <input
+                type="text"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer"
+            >
+              Create Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Main App -->
+    <div id="main-app" class="hidden">
+      <!-- Header/Navigation -->
+      <header
+        class="fixed top-0 left-0 w-full bg-white shadow-sm z-40 px-4 py-3"
+      >
+        <div class="flex items-center justify-between">
+          <h1 class="font-['Pacifico'] text-xl text-primary" style="color: black;">
+            Exoluce Treasure
+          </h1>
+          <div class="flex items-center gap-3">
+            <button
+              id="search-btn"
+              class="w-8 h-8 flex items-center justify-center"
+            >
+              <i class="ri-search-line ri-lg"></i>
+            </button>
+            <button
+              id="cart-btn"
+              class="w-8 h-8 flex items-center justify-center relative cursor-pointer"
+            >
+              <i class="ri-shopping-bag-line ri-lg"></i>
+              <span
+                id="cart-count"
+                class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                >0</span
+              >
+            </button>
+            <button
+              id="logout-btn"
+              class="w-8 h-8 flex items-center justify-center"
+            >
+              <i
+                class="ri-logout-box-line ri-lg text-gray-500 hover:text-primary"
+              ></i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Bar (initially hidden) -->
+        <div id="search-container" class="hidden mt-3">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search products..."
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 !rounded-button focus:outline-none"
+            />
+            <div
+              class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
+            >
+              <i class="ri-search-line text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        <!-- Category Navigation -->
+        <div class="mt-3 flex overflow-x-auto hide-scrollbar gap-2 pb-1">
+          <button
+            class="category-btn active whitespace-nowrap px-4 py-1.5 bg-primary text-white !rounded-full text-sm font-medium"
+          >
+            All
+          </button>
+          <button
+            class="category-btn whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-700 !rounded-full text-sm font-medium"
+          >
+            New Arrivals
+          </button>
+          <button
+            class="category-btn whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-700 !rounded-full text-sm font-medium"
+          >
+            T-shirts
+          </button>
+          <button
+            class="category-btn whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-700 !rounded-full text-sm font-medium"
+          >
+            Baggy Pants
+          </button>
+          <button
+            class="category-btn whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-700 !rounded-full text-sm font-medium"
+          >
+            Accessories
+          </button>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="pt-32 px-4 pb-16">
+        <!-- Banner -->
+        <div class="mb-6 rounded-lg overflow-hidden shadow-sm">
+          <img
+            src="https://readdy.ai/api/search-image?query=Fashion%20e-commerce%20banner%20with%20stylish%20models%20wearing%20trendy%20urban%20streetwear%2C%20professional%20photography%20with%20dramatic%20lighting%2C%20red%20and%20black%20color%20scheme%2C%20high%20fashion%20aesthetic%2C%20minimalist%20composition%2C%20text-free%20design%2C%20premium%20quality%20apparel%20showcase&width=800&height=400&seq=banner1&orientation=landscape"
+            alt="New Collection"
+            class="w-full h-40 object-cover"
+          />
+        </div>
+        <!-- New Arrivals Section -->
+        <section id="new-arrivals-section" class="mb-8">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold">New Arrivals</h2>
+            <a href="#" class="text-primary text-sm font-medium">View All</a>
+          </div>
+          <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2">
+            <div
+              class="min-w-[140px] max-w-[140px] bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[140px] overflow-hidden">
+                <img
+                  src="Screenshot 2025-06-06 194820.png"
+                  alt="Never Forget Your Dreams Blackshirt"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-2">
+                <h3 class="text-sm font-medium truncate">
+                  Never Forget Your Dreams Blackshirt </h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱399</span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-primary text-white rounded"
+                    >New</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="min-w-[140px] max-w-[140px] bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[140px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20premium%20baggy%20cargo%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=product2&orientation=squarish"
+                  alt="Red Cargo Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-2">
+                <h3 class="text-sm font-medium truncate">Red Cargo Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,499</span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-primary text-white rounded"
+                    >New</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="min-w-[140px] max-w-[140px] bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[140px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20leather%20chain%20bracelet%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=product3&orientation=squarish"
+                  alt="Chain Bracelet"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-2">
+                <h3 class="text-sm font-medium truncate">Chain Bracelet</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,249</span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-primary text-white rounded"
+                    >New</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="min-w-[140px] max-w-[140px] bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[140px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=White%20graphic%20t-shirt%20with%20red%20print%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=product4&orientation=squarish"
+                  alt="Graphic Print Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-2">
+                <h3 class="text-sm font-medium truncate">Graphic Print Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,749</span>
+                  <span
+                    class="text-xs px-1.5 py-0.5 bg-primary text-white rounded"
+                    >New</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div> 
+        </section>
+        <!-- All Products Section -->
+        <section id="all-products-section">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold">All Products</h2>
+            <button id="filter-btn" class="flex items-center gap-1 text-sm">
+              <span>Filter</span>
+              <div class="w-4 h-4 flex items-center justify-center">
+                <i class="ri-filter-3-line"></i>
+              </div>
+            </button>
+          </div>
+          <div class="product-grid">
+            <!-- T-shirts -->
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="Screenshot 2025-06-06 194820.png"
+                  alt="Never Forget Your Dreams Blackshirt"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">
+                  Never Forget Your Dreams Blackshirt
+                </h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱399</span>
+                  <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2">
+                      <button
+                        class="add-to-wishlist w-7 h-7 flex items-center justify-center border border-gray-200 !rounded-full hover:bg-red-50"
+                        data-id="1"
+                        data-name="Never Forget Your Dreams Blackshirt"
+                        data-price="399"
+                        data-img="https://readdy.ai/api/search-image?query=Black%20oversized%20t-shirt%20with%20minimalist%20design%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt1&orientation=squarish">
+                        <i class="ri-heart-line text-gray-400 hover:text-red-500"></i>
+                      </button>
+
+                      <button
+                        class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                        data-id="1"
+                        data-name="Never Forget Your Dreams Blackshirt"
+                        data-price="399"
+                        data-img="https://readdy.ai/api/search-image?query=Black%20oversized%20t-shirt%20with%20minimalist%20design%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt1&orientation=squarish"
+                      >
+                        <i class="ri-add-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-item bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=White%20graphic%20t-shirt%20with%20red%20print%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt2&orientation=squarish"
+                  alt="Graphic Print Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Graphic Print Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,749</span>
+                  <!--add to wishlist cart button-->
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="2"
+                    data-name="Graphic Print Tee"
+                    data-price="34.99"
+                    data-img="https://readdy.ai/api/search-image?query=White%20graphic%20t-shirt%20with%20red%20print%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt2&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20premium%20t-shirt%20with%20minimal%20design%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt3&orientation=squarish"
+                  alt="Premium Red Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Premium Red Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="3"
+                    data-name="Premium Red Tee"
+                    data-price="29.99"
+                    data-img="https://readdy.ai/api/search-image?query=Red%20premium%20t-shirt%20with%20minimal%20design%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt3&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Striped%20black%20and%20white%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt4&orientation=squarish"
+                  alt="Striped Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Striped Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">$32.99</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="4"
+                    data-name="Striped Tee"
+                    data-price="32.99"
+                    data-img="https://readdy.ai/api/search-image?query=Striped%20black%20and%20white%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt4&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+              
+
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Long%20sleeve%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt5&orientation=squarish"
+                  alt="Long Sleeve Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Long Sleeve Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,149</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="5"
+                    data-name="Long Sleeve Tee"
+                    data-price="42.99"
+                    data-img="https://readdy.ai/api/search-image?query=Long%20sleeve%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt5&orientation=squarish">
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div  class="product-item bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Vintage%20washed%20red%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt6&orientation=squarish"
+                  alt="Vintage Wash Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Vintage Wash Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,849</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="6"
+                    data-name="Vintage Wash Tee"
+                    data-price="36.99"
+                    data-img="https://readdy.ai/api/search-image?query=Vintage%20washed%20red%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt6&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Premium%20black%20pocket%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt7&orientation=squarish"
+                  alt="Pocket Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Pocket Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,449</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="7"
+                    data-name="Pocket Tee"
+                    data-price="28.99"
+                    data-img="https://readdy.ai/api/search-image?query=Premium%20black%20pocket%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt7&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Distressed%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt8&orientation=squarish"
+                  alt="Distressed Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Distressed Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,949</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="8"
+                    data-name="Distressed Tee"
+                    data-price="38.99"
+                    data-img="https://readdy.ai/api/search-image?query=Distressed%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt8&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Tie-dye%20red%20and%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt9&orientation=squarish"
+                  alt="Tie-Dye Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Tie-Dye Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,249</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="9"
+                    data-name="Tie-Dye Tee"
+                    data-price="44.99"
+                    data-img="https://readdy.ai/api/search-image?query=Tie-dye%20red%20and%20black%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt9&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Crop%20top%20red%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt10&orientation=squarish"
+                  alt="Crop Top Tee"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Crop Top Tee</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,599</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="10"
+                    data-name="Crop Top Tee"
+                    data-price="31.99"
+                    data-img="https://readdy.ai/api/search-image?query=Crop%20top%20red%20t-shirt%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=tshirt10&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Baggy Pants -->
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20baggy%20cargo%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants1&orientation=squarish"
+                  alt="Black Cargo Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Black Cargo Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="11"
+                    data-name="Black Cargo Pants"
+                    data-price="69.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20baggy%20cargo%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants1&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20premium%20baggy%20cargo%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants2&orientation=squarish"
+                  alt="Red Cargo Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Red Cargo Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="12"
+                    data-name="Red Cargo Pants"
+                    data-price="69.99"
+                    data-img="https://readdy.ai/api/search-image?query=Red%20premium%20baggy%20cargo%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants2&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Washed%20denim%20baggy%20jeans%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants3&orientation=squarish"
+                  alt="Baggy Jeans"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Baggy Jeans</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,249</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="13"
+                    data-name="Baggy Jeans"
+                    data-price="64.99"
+                    data-img="https://readdy.ai/api/search-image?query=Washed%20denim%20baggy%20jeans%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=p
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Camo%20print%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants4&orientation=squarish"
+                  alt="Camo Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Camo Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,999</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="14"
+                    data-name="Camo Pants"
+                    data-price="59.99"
+                    data-img="https://readdy.ai/api/search-image?query=Camo%20print%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=p
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20track%20pants%20with%20white%20stripes%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants5&orientation=squarish"
+                  alt="Track Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Track Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,749</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="15"
+                    data-name="Track Pants"
+                    data-price="54.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20track%20pants%20with%20white%20stripes%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants5&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20wide%20leg%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants6&orientation=squarish"
+                  alt="Wide Leg Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Wide Leg Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,149</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="16"
+                    data-name="Wide Leg Pants"
+                    data-price="62.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20wide%20leg%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants6&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Distressed%20baggy%20jeans%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants7&orientation=squarish"
+                  alt="Distressed Jeans"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Distressed Jeans</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,649</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="17"
+                    data-name="Distressed Jeans"
+                    data-price="72.99"
+                    data-img="https://readdy.ai/api/search-image?query=Distressed%20baggy%20jeans%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants7&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20plaid%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants8&orientation=squarish"
+                  alt="Plaid Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Plaid Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱3,249</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="18"
+                    data-name="Plaid Pants"
+                    data-price="64.99"
+                    data-img="https://readdy.ai/api/search-image?query=Red%20plaid%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants8&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20jogger%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants9&orientation=squarish"
+                  alt="Jogger Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Jogger Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="19"
+                    data-name="Jogger Pants"
+                    data-price="49.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20jogger%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants9&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20leather%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants10&orientation=squarish"
+                  alt="Leather Pants"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Leather Pants</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱4,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="20"
+                    data-name="Leather Pants"
+                    data-price="89.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20leather%20baggy%20pants%2C%20urban%20streetwear%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20fabric%2C%20fashion%20product%20photography&width=300&height=300&seq=pants10&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Accessories -->
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20leather%20chain%20bracelet%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc1&orientation=squarish"
+                  alt="Chain Bracelet"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Chain Bracelet</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,249</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="21"
+                    data-name="Chain Bracelet"
+                    data-price="24.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20leather%20chain%20bracelet%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc1&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20beanie%20hat%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc2&orientation=squarish"
+                  alt="Beanie Hat"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Beanie Hat</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱999</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="22"
+                    data-name="Beanie Hat"
+                    data-price="19.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20beanie%20hat%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc2&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20leather%20belt%20with%20silver%20buckle%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc3&orientation=squarish"
+                  alt="Leather Belt"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Leather Belt</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,749</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="23"
+                    data-name="Leather Belt"
+                    data-price="34.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20leather%20belt%20with%20silver%20buckle%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc3&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Silver%20chain%20necklace%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc4&orientation=squarish"
+                  alt="Chain Necklace"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Chain Necklace</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,499</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="24"
+                    data-name="Chain Necklace"
+                    data-price="29.99"
+                    data-img="https://readdy.ai/api/search-image?query=Silver%20chain%20necklace%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc4&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20fingerless%20gloves%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc5&orientation=squarish"
+                  alt="Fingerless Gloves"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Fingerless Gloves</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,149</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="25"
+                    data-name="Fingerless Gloves"
+                    data-price="22.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20fingerless%20gloves%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc5&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20sunglasses%20with%20red%20accents%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc6&orientation=squarish"
+                  alt="Sunglasses"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Sunglasses</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,999</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="26"
+                    data-name="Sunglasses"
+                    data-price="39.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20sunglasses%20with%20red%20accents%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc6&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20and%20black%20snapback%20cap%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc7&orientation=squarish"
+                  alt="Snapback Cap"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Snapback Cap</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱1,399</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="27"
+                    data-name="Snapback Cap"
+                    data-price="27.99"
+                    data-img="https://readdy.ai/api/search-image?query=Red%20and%20black%20snapback%20cap%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc7&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20leather%20wallet%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc8&orientation=squarish"
+                  alt="Leather Wallet"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Leather Wallet</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,149</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="28"
+                    data-name="Leather Wallet"
+                    data-price="42.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20leather%20wallet%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc8&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Red%20bandana%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc9&orientation=squarish"
+                  alt="Bandana"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Bandana</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱749</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="29"
+                    data-name="Bandana"
+                    data-price="14.99"
+                    data-img="https://readdy.ai/api/search-image?query=Red%20bandana%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc9&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-item bg-white rounded-lg shadow-sm overflow-hidden"
+            >
+              <div class="h-[160px] overflow-hidden">
+                <img
+                  src="https://readdy.ai/api/search-image?query=Black%20backpack%20with%20red%20accents%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc10&orientation=squarish"
+                  alt="Backpack"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="text-sm font-medium truncate">Backpack</h3>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-sm font-semibold">₱2,999</span>
+                  <button
+                    class="add-to-cart w-7 h-7 flex items-center justify-center bg-primary !rounded-full text-white"
+                    data-id="30"
+                    data-name="Backpack"
+                    data-price="59.99"
+                    data-img="https://readdy.ai/api/search-image?query=Black%20backpack%20with%20red%20accents%2C%20urban%20accessory%2C%20studio%20photography%20with%20clean%20white%20background%2C%20high-quality%20material%2C%20fashion%20product%20photography&width=300&height=300&seq=acc10&orientation=squarish"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+            </div>
+            </div>
+              </div>
+        </section>
+      </main>
+      <!-- Bottom Tab Bar -->
+      <nav
+        class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-40"
+      >
+        <div class="grid grid-cols-4 h-14">
+          <button class="flex flex-col items-center justify-center">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-home-5-fill text-primary"></i>
+            </div>
+            <span class="text-xs mt-0.5 text-primary">Home</span>
+          </button>
+          <button class="flex flex-col items-center justify-center">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-search-line text-gray-500"></i>
+            </div>
+            <span class="text-xs mt-0.5 text-gray-500">Search</span>
+          </button>
+          <button
+            id="wishlist-btn"
+            class="flex flex-col items-center justify-center"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-heart-line text-gray-500"></i>
+            </div>
+            <span class="text-xs mt-0.5 text-gray-500">Wishlist</span>
+          </button>
+          <button
+            id="profile-btn"
+            class="flex flex-col items-center justify-center"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-user-line text-gray-500"></i>
+            </div>
+            <span class="text-xs mt-0.5 text-gray-500">Profile</span>
+          </button>
+        </div>
+      </nav>
+      <!-- Shopping Cart Slide -->
+      <div
+        id="cart-slide"
+        class="cart-slide fixed top-0 right-0 h-full w-full max-w-xs bg-white shadow-xl z-50 flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-200 flex items-center justify-between"
+        >
+          <h2 class="text-lg font-semibold">Your Cart</h2>
+          <button
+            id="close-cart"
+            class="w-8 h-8 flex items-center justify-center"
+          >
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-4">
+          <div class="text-center py-8 text-gray-500">
+            <div
+              class="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+            >
+              <i class="ri-shopping-bag-line ri-3x"></i>
+            </div>
+            <p>Your cart is empty</p>
+          </div>
+        </div>
+        <div class="p-4 border-t border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-gray-600">Subtotal</span>
+            <span id="cart-subtotal" class="font-semibold">$0.00</span>
+          </div>
+          <button
+            id="checkout-btn"
+            class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer"
+          >
+            Checkout
+          </button>
+        </div>
+      </div>
+      <!-- Filter Modal -->
+      <div
+        id="filter-modal"
+        class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center"
+      >
+        <div class="bg-white w-full max-h-[80%] overflow-y-auto !rounded-t-xl">
+          <div
+            class="p-4 border-b border-gray-200 flex items-center justify-between"
+          >
+            <h2 class="text-lg font-semibold">Filter Products</h2>
+            <button
+              id="close-filter"
+              class="w-8 h-8 flex items-center justify-center"
+            >
+              <i class="ri-close-line ri-lg"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Categories</h3>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    class="form-checkbox text-primary"
+                    checked
+                  />
+                  <span class="ml-2 text-sm">All Products</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="form-checkbox text-primary" />
+                  <span class="ml-2 text-sm">T-shirts</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="form-checkbox text-primary" />
+                  <span class="ml-2 text-sm">Baggy Pants</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="form-checkbox text-primary" />
+                  <span class="ml-2 text-sm">Accessories</span>
+                </label>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Price Range</h3>
+              <div class="flex items-center space-x-2">
+                <input
+                  type="number"
+                  placeholder="Min"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                />
+                <span>-</span>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                />
+              </div>
+            </div>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Sort By</h3>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="sort"
+                    class="form-radio text-primary"
+                    checked
+                  />
+                  <span class="ml-2 text-sm">Newest</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="sort"
+                    class="form-radio text-primary"
+                  />
+                  <span class="ml-2 text-sm">Price: Low to High</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="sort"
+                    class="form-radio text-primary"
+                  />
+                  <span class="ml-2 text-sm">Price: High to Low</span>
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    name="sort"
+                    class="form-radio text-primary"
+                  />
+                  <span class="ml-2 text-sm">Popularity</span>
+                </label>
+              </div>
+            </div>
+            <div class="flex space-x-3">
+              <button
+                class="flex-1 py-2 border border-gray-300 !rounded-button text-sm"
+              >
+                Reset
+              </button>
+              <button
+                class="flex-1 bg-primary text-white py-2 !rounded-button text-sm"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Checkout Modal -->
+      <div
+        id="checkout-modal"
+        class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4"
+      >
+        <div
+          class="bg-white w-full max-w-md !rounded-xl max-h-[90vh] overflow-y-auto"
+        >
+          <div
+            class="p-4 border-b border-gray-200 flex items-center justify-between"
+          >
+            <h2 class="text-lg font-semibold">Checkout</h2>
+            <button
+              class="close-checkout w-8 h-8 flex items-center justify-center"
+            >
+              <i class="ri-close-line ri-lg"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Delivery Information</h3>
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-xs text-gray-500 mb-1"
+                    >Full Name</label
+                  >
+                  <input
+                    type="text"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-500 mb-1"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-500 mb-1">Email</label>
+                  <input
+                    type="email"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-500 mb-1"
+                    >Address</label
+                  >
+                  <input
+                    type="text"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your address"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-500 mb-1">City</label>
+                  <input
+                    type="text"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your city"
+                  />
+                </div>
+                <div class="flex space-x-3">
+                  <div class="flex-1">
+                    <label class="block text-xs text-gray-500 mb-1"
+                      >State/Province</label
+                    >
+                    <input
+                      type="text"
+                      class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                      placeholder="State"
+                    />
+                  </div>
+                  <div class="flex-1">
+                    <label class="block text-xs text-gray-500 mb-1"
+                      >Zip Code</label
+                    >
+                    <input
+                      type="text"
+                      class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                      placeholder="Zip code"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Payment Method</h3>
+              <div class="space-y-2">
+                <label
+                  class="flex items-center p-3 border border-gray-300 !rounded-button"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    class="form-radio text-primary"
+                    checked
+                  />
+                  <span class="ml-2 text-sm">Credit/Debit Card</span>
+                </label>
+                <label
+                  class="flex items-center p-3 border border-gray-300 !rounded-button"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    class="form-radio text-primary"
+                  />
+                  <span class="ml-2 text-sm">PayPal</span>
+                </label>
+                <label
+                  class="flex items-center p-3 border border-gray-300 !rounded-button"
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    class="form-radio text-primary"
+                  />
+                  <span class="ml-2 text-sm">Cash on Delivery</span>
+                </label>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h3 class="text-sm font-medium mb-3">Order Summary</h3>
+              <div class="bg-gray-50 p-3 !rounded-lg">
+                <div id="checkout-items" class="mb-3 max-h-40 overflow-y-auto">
+                  <!-- Items will be added here dynamically -->
+                </div>
+                <div class="border-t border-gray-200 pt-3 space-y-2">
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span id="checkout-subtotal" class="font-medium"
+                      >$0.00</span
+                    >
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Shipping</span>
+                    <span class="font-medium">₱150</span>
+                  </div>
+                  <div
+                    class="flex justify-between text-sm font-semibold pt-2 border-t border-gray-200"
+                  >
+                    <span>Total</span>
+                    <span id="checkout-total" class="text-primary">$0.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              id="place-order-btn"
+              class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer"
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Profile Modal -->
+      <div
+        id="profile-modal"
+        class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4"
+      >
+        <div
+          id="album-modal"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center px-4"
+        >
+          <div class="bg-white w-full max-w-md !rounded-xl">
+            <div
+              class="p-4 border-b border-gray-200 flex items-center justify-between"
+            >
+              <h2 class="text-lg font-semibold">My Album</h2>
+              <button
+                id="close-album"
+                class="w-8 h-8 flex items-center justify-center"
+              >
+                <i class="ri-close-line ri-lg"></i>
+              </button>
+            </div>
+            <div class="p-4">
+              <div id="album-grid" class="grid grid-cols-3 gap-2">
+                <!-- Album images will be added here -->
+              </div>
+              <label
+                for="album-upload"
+                class="mt-4 w-full flex items-center justify-center py-3 border-2 border-dashed border-gray-300 !rounded-lg cursor-pointer hover:border-primary transition"
+              >
+                <div class="flex items-center">
+                  <i class="ri-upload-2-line mr-2"></i>
+                  <span class="text-sm font-medium">Upload Photos</span>
+                </div>
+              </label>
+              <input
+                type="file"
+                id="album-upload"
+                class="hidden"
+                accept="image/*"
+                multiple
+              />
+            </div>
+          </div>
+        </div>
+        <div class="bg-white w-full max-w-md !rounded-xl">
+          <div
+            class="p-4 border-b border-gray-200 flex items-center justify-between"
+          >
+            <h2 class="text-lg font-semibold">Profile</h2>
+            <button
+              id="close-profile"
+              class="w-8 h-8 flex items-center justify-center"
+            >
+              <i class="ri-close-line ri-lg"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex flex-col items-center justify-center mb-6">
+              <div class="relative w-24 h-24 mb-2">
+                <div
+                  id="profile-image-container"
+                  class="w-full h-full bg-gray-100 !rounded-full flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    id="profile-image"
+                    class="w-full h-full object-cover hidden"
+                  />
+                  <i class="ri-user-3-line ri-2x text-gray-400"></i>
+                </div>
+                <label
+                  for="profile-upload"
+                  class="absolute bottom-0 right-0 w-8 h-8 bg-primary !rounded-full flex items-center justify-center cursor-pointer text-white"
+                >
+                  <i class="ri-camera-line"></i>
+                </label>
+                <input
+                  type="file"
+                  id="profile-upload"
+                  class="hidden"
+                  accept="image/*"
+                />
+              </div>
+              <button id="view-album" class="text-primary text-sm font-medium">
+                View Album
+              </button>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs text-gray-500 mb-1"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="profile-name"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm bg-gray-50"
+                  readonly
+                />
+              </div>
+              <div>
+                <label class="block text-xs text-gray-500 mb-1">Email</label>
+                <input
+                  type="email"
+                  id="profile-email"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm bg-gray-50"
+                  readonly
+                />
+              </div>
+              <div>
+                <label class="block text-xs text-gray-500 mb-1"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="profile-phone"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+              <div>
+                <label class="block text-xs text-gray-500 mb-1">Address</label>
+                <input
+                  type="text"
+                  id="profile-address"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                  placeholder="Enter your address"
+                />
+              </div>
+              <div class="flex space-x-3">
+                <div class="flex-1">
+                  <label class="block text-xs text-gray-500 mb-1">City</label>
+                  <input
+                    type="text"
+                    id="profile-city"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter your city"
+                  />
+                </div>
+                <div class="flex-1">
+                  <label class="block text-xs text-gray-500 mb-1">State</label>
+                  <input
+                    type="text"
+                    id="profile-state"
+                    class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                    placeholder="Enter state"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs text-gray-500 mb-1">Zip Code</label>
+                <input
+                  type="text"
+                  id="profile-zip"
+                  class="w-full px-3 py-2 border border-gray-300 !rounded-button text-sm"
+                  placeholder="Enter zip code"
+                />
+              </div>
+              <button
+                id="save-profile"
+                class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer mt-4"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Order Confirmation Modal -->
+      <div
+        id="confirmation-modal"
+        class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4"
+      >
+        <div class="bg-white w-full max-w-md !rounded-xl p-6 text-center">
+          <div
+            class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-green-100 !rounded-full"
+          >
+            <i class="ri-check-line ri-2x text-green-500"></i>
+          </div>
+          <h2 class="text-xl font-semibold mb-2">Thank You For Your Order!</h2>
+          <p class="text-gray-600 mb-6">
+            Your order has been placed successfully.
+          </p>
+          <div class="bg-gray-50 p-4 !rounded-lg mb-6 text-left">
+            <div class="flex justify-between mb-2">
+              <span class="text-sm text-gray-500">Order Number:</span>
+              <span class="text-sm font-medium" id="order-number"
+                >ET-2025-06-06-1234</span
+              >
+            </div>
+            <div class="flex justify-between mb-2">
+              <span class="text-sm text-gray-500">Delivery Address:</span>
+              <span class="text-sm font-medium" id="delivery-address"
+                >123 Main St, New York, NY 10001</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-500">Estimated Delivery:</span>
+              <span class="text-sm font-medium" id="estimated-delivery"
+                >June 10-12, 2025</span
+              >
+            </div>
+          </div>
+          <button
+            id="continue-shopping"
+            class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-red-700 transition cursor-pointer"
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    </div>
+    <script id="auth-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginTab = document.getElementById("login-tab");
+        const registerTab = document.getElementById("register-tab");
+        const loginForm = document.getElementById("login-form");
+        const registerForm = document.getElementById("register-form");
+        const authScreen = document.getElementById("auth-screen");
+        const mainApp = document.getElementById("main-app");
+        // Store user data on successful login/register
+        function storeUserData(name, email) {
+          const profileData = {
+            name: name,
+            email: email,
+          };
+          localStorage.setItem("profileData", JSON.stringify(profileData));
+        }
+        loginTab.addEventListener("click", function () {
+          loginTab.classList.add("border-primary", "text-primary");
+          registerTab.classList.remove("border-primary", "text-primary");
+          loginTab.classList.remove("border-gray-200", "text-gray-500");
+          registerTab.classList.add("border-gray-200", "text-gray-500");
+          loginForm.classList.remove("hidden");
+          registerForm.classList.add("hidden");
+        });
+        registerTab.addEventListener("click", function () {
+          registerTab.classList.add("border-primary", "text-primary");
+          loginTab.classList.remove("border-primary", "text-primary");
+          registerTab.classList.remove("border-gray-200", "text-gray-500");
+          loginTab.classList.add("border-gray-200", "text-gray-500");
+          registerForm.classList.remove("hidden");
+          loginForm.classList.add("hidden");
+        });
+        // Login form submission
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = this.querySelector('input[type="email"]').value;
+          storeUserData("User", email);
+          authScreen.classList.add("hidden");
+          mainApp.classList.remove("hidden");
+        });
+        // Register form submission
+        registerForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = this.querySelector('input[type="text"]').value;
+          const email = this.querySelector('input[type="email"]').value;
+          storeUserData(name, email);
+          authScreen.classList.add("hidden");
+          mainApp.classList.remove("hidden");
+        });
+      });
+    </script>
+    <script id="cart-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        const cartBtn = document.getElementById("cart-btn");
+        const closeCart = document.getElementById("close-cart");
+        const cartSlide = document.getElementById("cart-slide");
+        const cartItems = document.getElementById("cart-items");
+        const cartSubtotal = document.getElementById("cart-subtotal");
+        const cartCount = document.getElementById("cart-count");
+        const checkoutBtn = document.getElementById("checkout-btn");
+        let cart = [];
+        // Add to cart buttons
+        const addToCartButtons = document.querySelectorAll(".add-to-cart");
+        addToCartButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const productId = this.getAttribute("data-id");
+            const productName = this.getAttribute("data-name");
+            const productPrice = parseFloat(this.getAttribute("data-price"));
+            const productImg = this.getAttribute("data-img");
+            // Check if product is already in cart
+            const existingItem = cart.find((item) => item.id === productId);
+            if (existingItem) {
+              existingItem.quantity += 1;
+            } else {
+              cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                img: productImg,
+                quantity: 1,
+              });
+            }
+            updateCart();
+            // Show cart slide
+            cartSlide.classList.add("open");
+          });
+        });
+        // Open cart
+        cartBtn.addEventListener("click", function () {
+          cartSlide.classList.add("open");
+        });
+        // Close cart
+        closeCart.addEventListener("click", function () {
+          cartSlide.classList.remove("open");
+        });
+        // Update cart UI
+        function updateCart() {
+          // Update cart count
+          const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+          cartCount.textContent = totalItems;
+          // Update cart items
+          if (cart.length === 0) {
+            cartItems.innerHTML = `
+      <div class="text-center py-8 text-gray-500">
+      <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+      <i class="ri-shopping-bag-line ri-3x"></i>
+      </div>
+      <p>Your cart is empty</p>
+      </div>
+      `;
+          } else {
+            cartItems.innerHTML = "";
+            cart.forEach((item) => {
+              const itemElement = document.createElement("div");
+              itemElement.className =
+                "flex items-center py-3 border-b border-gray-100";
+              itemElement.innerHTML = `
+      <div class="w-16 h-16 overflow-hidden !rounded-lg mr-3">
+      <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+      </div>
+      <div class="flex-1">
+      <h4 class="text-sm font-medium">${item.name}</h4>
+      <div class="flex items-center justify-between mt-2">
+      <div class="flex items-center border border-gray-300 !rounded-lg overflow-hidden">
+      <button class="decrease-qty w-8 h-7 flex items-center justify-center bg-gray-100" data-id="${item.id}">
+      <i class="ri-subtract-line"></i>
+      </button>
+      <span class="w-8 h-7 flex items-center justify-center text-sm">${item.quantity}</span>
+      <button class="increase-qty w-8 h-7 flex items-center justify-center bg-gray-100" data-id="${item.id}">
+      <i class="ri-add-line"></i>
+      </button>
+      </div>
+      <span class="text-sm font-semibold">₱${(item.price * item.quantity).toLocaleString()}</span>
+      </div>
+      </div>
+      <button class="remove-item ml-2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500" data-id="${item.id}">
+      <i class="ri-delete-bin-line"></i>
+      </button>
+      `;
+              cartItems.appendChild(itemElement);
+            });
+            // Add event listeners to quantity buttons
+            const decreaseButtons = document.querySelectorAll(".decrease-qty");
+            const increaseButtons = document.querySelectorAll(".increase-qty");
+            const removeButtons = document.querySelectorAll(".remove-item");
+            decreaseButtons.forEach((button) => {
+              button.addEventListener("click", function () {
+                const productId = this.getAttribute("data-id");
+                const item = cart.find((item) => item.id === productId);
+                if (item.quantity > 1) {
+                  item.quantity -= 1;
+                } else {
+                  cart = cart.filter((item) => item.id !== productId);
+                }
+                updateCart();
+              });
+            });
+            increaseButtons.forEach((button) => {
+              button.addEventListener("click", function () {
+                const productId = this.getAttribute("data-id");
+                const item = cart.find((item) => item.id === productId);
+                item.quantity += 1;
+                updateCart();
+              });
+            });
+            removeButtons.forEach((button) => {
+              button.addEventListener("click", function () {
+                const productId = this.getAttribute("data-id");
+                cart = cart.filter((item) => item.id !== productId);
+                updateCart();
+              });
+            });
+          }
+          // Update subtotal
+          const subtotal = cart.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0,
+          );
+          cartSubtotal.textContent = `₱${subtotal.toLocaleString()}`;
+          // Update checkout button state
+          checkoutBtn.disabled = cart.length === 0;
+          if (cart.length === 0) {
+            checkoutBtn.classList.add("opacity-50", "cursor-not-allowed");
+            checkoutBtn.classList.remove("hover:bg-red-700");
+          } else {
+            checkoutBtn.classList.remove("opacity-50", "cursor-not-allowed");
+            checkoutBtn.classList.add("hover:bg-red-700");
+          }
+        }
+        // Checkout button
+        checkoutBtn.addEventListener("click", function () {
+          if (cart.length === 0) return;
+          const checkoutModal = document.getElementById("checkout-modal");
+          const checkoutItems = document.getElementById("checkout-items");
+          const checkoutSubtotal = document.getElementById("checkout-subtotal");
+          const checkoutTotal = document.getElementById("checkout-total");
+          // Populate checkout items
+          checkoutItems.innerHTML = "";
+          cart.forEach((item) => {
+            const itemElement = document.createElement("div");
+            itemElement.className = "flex justify-between items-center mb-2 text-sm";
+            itemElement.innerHTML = `
+      <span>${item.name} x ${item.quantity}</span>
+      <span>₱${(item.price * item.quantity).toLocaleString()}</span>
+      `;
+            checkoutItems.appendChild(itemElement);
+          });
+          // Update totals
+          const subtotal = cart.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0,
+          );
+          const shipping = 150;
+          const total = subtotal + shipping;
+          checkoutSubtotal.textContent = `₱${subtotal.toLocaleString()}`;
+          checkoutTotal.textContent = `₱${total.toLocaleString()}`;
+          // Show checkout modal
+          checkoutModal.classList.add("open");
+          cartSlide.classList.remove("open");
+        });
+        // Close checkout modal
+        const closeCheckoutButtons = document.querySelectorAll(".close-checkout");
+        closeCheckoutButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const checkoutModal = document.getElementById("checkout-modal");
+            checkoutModal.classList.remove("open");
+          });
+        });
+        // Place order button
+        const placeOrderBtn = document.getElementById("place-order-btn");
+        placeOrderBtn.addEventListener("click", function () {
+          const checkoutModal = document.getElementById("checkout-modal");
+          const confirmationModal = document.getElementById("confirmation-modal");
+          // Generate random order number
+          const orderNumber = `ET-2025-06-06-${Math.floor(1000 + Math.random() * 9000)}`;
+          document.getElementById("order-number").textContent = orderNumber;
+          // Get address from form
+          const addressInput = document.querySelector(
+            'input[placeholder="Enter your address"]',
+          );
+          const cityInput = document.querySelector(
+            'input[placeholder="Enter your city"]',
+          );
+          const stateInput = document.querySelector('input[placeholder="State"]');
+          const zipInput = document.querySelector('input[placeholder="Zip code"]');
+          let address = "123 Main St, New York, NY 10001"; // Default
+          if (addressInput.value && cityInput.value) {
+            address = `${addressInput.value}, ${cityInput.value}`;
+            if (stateInput.value) address += `, ${stateInput.value}`;
+            if (zipInput.value) address += ` ${zipInput.value}`;
+          }
+          document.getElementById("delivery-address").textContent = address;
+          // Set estimated delivery (3-5 days from now)
+          const today = new Date();
+          const deliveryStart = new Date(today);
+          deliveryStart.setDate(today.getDate() + 3);
+          const deliveryEnd = new Date(today);
+          deliveryEnd.setDate(today.getDate() + 5);
+          const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+          const deliveryDate = `${months[deliveryStart.getMonth()]} ${deliveryStart.getDate()}-${deliveryEnd.getDate()}, ${deliveryStart.getFullYear()}`;
+          document.getElementById("estimated-delivery").textContent = deliveryDate;
+          // Show confirmation modal
+          checkoutModal.classList.remove("open");
+          confirmationModal.classList.add("open");
+          // Clear cart
+          cart = [];
+          updateCart();
+        });
+        // Continue shopping button
+        const continueShoppingBtn = document.getElementById("continue-shopping");
+        continueShoppingBtn.addEventListener("click", function () {
+          const confirmationModal = document.getElementById("confirmation-modal");
+          confirmationModal.classList.remove("open");
+        });
+      });
+    </script>
+    <script id="wishlist-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        let wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        // Create wishlist modal HTML
+        const wishlistModalHTML = `
+      <div id="wishlist-modal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4">
+      <div class="bg-white w-full max-w-md !rounded-xl">
+      <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+      <h2 class="text-lg font-semibold">My Wishlist</h2>
+      <button id="close-wishlist" class="w-8 h-8 flex items-center justify-center">
+      <i class="ri-close-line ri-lg"></i>
+      </button>
+      </div>
+      <div id="wishlist-items" class="p-4 max-h-[60vh] overflow-y-auto">
+      </div>
+      </div>
+      </div>
+      `;
+        // Add modal to body
+        document.body.insertAdjacentHTML("beforeend", wishlistModalHTML);
+        const wishlistModal = document.getElementById("wishlist-modal");
+        const closeWishlist = document.getElementById("close-wishlist");
+        const wishlistItems = document.getElementById("wishlist-items");
+        const wishlistBtn = document.getElementById("wishlist-btn");
+        function updateWishlistUI() {
+          const wishlistButtons = document.querySelectorAll(".add-to-wishlist");
+          wishlistButtons.forEach((button) => {
+            const productId = button.getAttribute("data-id");
+            const isWishlisted = wishlist.some((item) => item.id === productId);
+            const icon = button.querySelector("i");
+            if (isWishlisted) {
+              icon.classList.remove("ri-heart-line", "text-gray-400");
+              icon.classList.add("ri-heart-fill", "text-red-500");
+              button.classList.add("bg-red-50");
+            } else {
+              icon.classList.add("ri-heart-line", "text-gray-400");
+              icon.classList.remove("ri-heart-fill", "text-red-500");
+              button.classList.remove("bg-red-50");
+            }
+          });
+          // Update wishlist modal content
+          if (wishlist.length === 0) {
+            wishlistItems.innerHTML = `
+      <div class="text-center py-8 text-gray-500">
+      <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+      <i class="ri-heart-line ri-3x"></i>
+      </div>
+      <p>Your wishlist is empty</p>
+      </div>
+      `;
+          } else {
+            wishlistItems.innerHTML = "";
+            wishlist.forEach((item) => {
+              const itemElement = document.createElement("div");
+              itemElement.className =
+                "flex items-center py-3 border-b border-gray-100";
+              itemElement.innerHTML = `
+      <div class="w-16 h-16 overflow-hidden !rounded-lg mr-3">
+      <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+      </div>
+      <div class="flex-1">
+      <h4 class="text-sm font-medium">${item.name}</h4>
+      <div class="flex items-center justify-between mt-2">
+      <div class="flex items-center border border-gray-300 !rounded-lg overflow-hidden">
+      <button class="decrease-qty w-8 h-7 flex items-center justify-center bg-gray-100" data-id="${item.id}">
+      <i class="ri-subtract-line"></i>
+      </button>
+      <span class="w-8 h-7 flex items-center justify-center text-sm">${item.quantity}</span>
+      <button class="increase-qty w-8 h-7 flex items-center justify-center bg-gray-100" data-id="${item.id}">
+      <i class="ri-add-line"></i>
+      </button>
+      </div>
+      <span class="text-sm font-semibold">₱${(item.price * item.quantity).toLocaleString()}</span>
+      </div>
+      </div>
+      <button class="remove-item ml-2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500" data-id="${item.id}">
+      <i class="ri-delete-bin-line"></i>
+      </button>
+      `;
+              wishlistItems.appendChild(itemElement);
+            });
+            // Add event listeners to new buttons
+            document
+              .querySelectorAll(".add-to-cart-from-wishlist")
+              .forEach((button) => {
+                button.addEventListener("click", function () {
+                  const productId = this.getAttribute("data-id");
+                  const productName = this.getAttribute("data-name");
+                  const productPrice = parseFloat(this.getAttribute("data-price"));
+                  const productImg = this.getAttribute("data-img");
+                  // Add to cart (using existing cart functionality)
+                  const existingItem = cart.find((item) => item.id === productId);
+                  if (existingItem) {
+                    existingItem.quantity += 1;
+                  } else {
+                    cart.push({
+                      id: productId,
+                      name: productName,
+                      price: productPrice,
+                      img: productImg,
+                      quantity: 1,
+                    });
+                  }
+                  updateCart();
+                  // Show success message
+                  const successMsg = document.createElement("div");
+                  successMsg.className =
+                    "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 !rounded-lg z-50 flex items-center";
+                  successMsg.innerHTML = `
+      <i class="ri-shopping-cart-line mr-2"></i>
+      Added to cart
+      `;
+                  document.body.appendChild(successMsg);
+                  setTimeout(() => successMsg.remove(), 2000);
+                });
+              });
+            document.querySelectorAll(".remove-from-wishlist").forEach((button) => {
+              button.addEventListener("click", function () {
+                const productId = this.getAttribute("data-id");
+                wishlist = wishlist.filter((item) => item.id !== productId);
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                updateWishlistUI();
+              });
+            });
+          }
+        }
+        document.querySelectorAll(".add-to-wishlist").forEach((button) => {
+          button.addEventListener("click", function () {
+            const productId = this.getAttribute("data-id");
+            const productName = this.getAttribute("data-name");
+            const productPrice = this.getAttribute("data-price");
+            const productImg = this.getAttribute("data-img");
+            const existingItem = wishlist.find((item) => item.id === productId);
+            if (existingItem) {
+              wishlist = wishlist.filter((item) => item.id !== productId);
+            } else {
+              wishlist.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                img: productImg,
+              });
+              // Show success message
+              const successMsg = document.createElement("div");
+              successMsg.className =
+                "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 !rounded-lg z-50 flex items-center";
+              successMsg.innerHTML = `
+      <i class="ri-heart-fill mr-2"></i>
+      Added to wishlist
+      `;
+              document.body.appendChild(successMsg);
+              setTimeout(() => successMsg.remove(), 2000);
+            }
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            updateWishlistUI();
+          });
+        });
+        // Open wishlist modal
+        wishlistBtn.addEventListener("click", function () {
+          wishlistModal.classList.add("open");
+          updateWishlistUI();
+        });
+        // Close wishlist modal
+        closeWishlist.addEventListener("click", function () {
+          wishlistModal.classList.remove("open");
+        });
+        // Close modal when clicking outside
+        wishlistModal.addEventListener("click", function (event) {
+          if (event.target === wishlistModal) {
+            wishlistModal.classList.remove("open");
+          }
+        });
+        updateWishlistUI();
+      });
+    </script>
+    <script id="ui-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        // Profile image and album handling
+        const profileUpload = document.getElementById("profile-upload");
+        const profileImage = document.getElementById("profile-image");
+        const profileImageContainer = document.getElementById(
+          "profile-image-container",
+        );
+        const viewAlbumBtn = document.getElementById("view-album");
+        const albumModal = document.getElementById("album-modal");
+        const closeAlbum = document.getElementById("close-album");
+        const albumUpload = document.getElementById("album-upload");
+        const albumGrid = document.getElementById("album-grid");
+        // Load profile image
+        const savedProfileImage = localStorage.getItem("profileImage");
+        if (savedProfileImage) {
+          profileImage.src = savedProfileImage;
+          profileImage.classList.remove("hidden");
+          profileImageContainer.querySelector("i").classList.add("hidden");
+        }
+        // Handle profile image upload
+        profileUpload.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const imageData = e.target.result;
+              profileImage.src = imageData;
+              profileImage.classList.remove("hidden");
+              profileImageContainer.querySelector("i").classList.add("hidden");
+              localStorage.setItem("profileImage", imageData);
+              // Show success message
+              const successMsg = document.createElement("div");
+              successMsg.className =
+                "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 !rounded-lg z-50 flex items-center";
+              successMsg.innerHTML = `
+      <i class="ri-check-line mr-2"></i>
+      Profile photo updated
+      `;
+              document.body.appendChild(successMsg);
+              setTimeout(() => successMsg.remove(), 2000);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+        // Load album images
+        function loadAlbumImages() {
+          const albumImages = JSON.parse(localStorage.getItem("albumImages") || "[]");
+          albumGrid.innerHTML = "";
+          albumImages.forEach((imageData, index) => {
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "relative aspect-square";
+            imageContainer.innerHTML = `
+      <img src="${imageData}" class="w-full h-full object-cover !rounded-lg" alt="Album photo ${index + 1}">
+      <button class="delete-album-image absolute top-1 right-1 w-6 h-6 bg-black bg-opacity-50 !rounded-full flex items-center justify-center text-white" data-index="${index}">
+      <i class="ri-close-line"></i>
+      </button>
+      `;
+            albumGrid.appendChild(imageContainer);
+          });
+          // Add delete functionality
+          document.querySelectorAll(".delete-album-image").forEach((button) => {
+            button.addEventListener("click", function () {
+              const index = parseInt(this.getAttribute("data-index"));
+              const albumImages = JSON.parse(
+                localStorage.getItem("albumImages") || "[]",
+              );
+              albumImages.splice(index, 1);
+              localStorage.setItem("albumImages", JSON.stringify(albumImages));
+              loadAlbumImages();
+              // Show success message
+              const successMsg = document.createElement("div");
+              successMsg.className =
+              document.body.appendChild(successMsg);
+              setTimeout(() => successMsg.remove(), 2000);
+            });
+          });
+        }
+        // Handle album upload
+        albumUpload.addEventListener("change", function (e) {
+          const files = Array.from(e.target.files);
+          const albumImages = JSON.parse(localStorage.getItem("albumImages") || "[]");
+          files.forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              albumImages.push(e.target.result);
+              localStorage.setItem("albumImages", JSON.stringify(albumImages));
+              loadAlbumImages();
+            };
+            reader.readAsDataURL(file);
+          });
+          // Show success message
+          const successMsg = document.createElement("div");
+          successMsg.className =
+            "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 !rounded-lg z-50 flex items-center";
+          successMsg.innerHTML = `
+         <i class="ri-check-line mr-2"></i>
+      Photos uploaded successfully
+      `;
+          document.body.appendChild(successMsg);
+          setTimeout(() => successMsg.remove(), 2000);
+        });
+        // View album button
+        viewAlbumBtn.addEventListener("click", function () {
+          albumModal.classList.remove("hidden");
+          loadAlbumImages();
+        });
+        // Close album modal
+        closeAlbum.addEventListener("click", function () {
+          albumModal.classList.add("hidden");
+        });
+        // Close album modal when clicking outside
+        albumModal.addEventListener("click", function (e) {
+          if (e.target === albumModal) {
+            albumModal.classList.add("hidden");
+          }
+        });
+        // Profile modal
+        const profileBtn = document.getElementById("profile-btn");
+        const profileModal = document.getElementById("profile-modal");
+        const closeProfile = document.getElementById("close-profile");
+        const saveProfile = document.getElementById("save-profile");
+        profileBtn.addEventListener("click", function () {
+          profileModal.classList.add("open");
+          // Load saved profile data
+          const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
+          document.getElementById("profile-name").value = profileData.name || "";
+          document.getElementById("profile-email").value = profileData.email || "";
+          document.getElementById("profile-phone").value = profileData.phone || "";
+          document.getElementById("profile-address").value =
+            profileData.address || "";
+          document.getElementById("profile-city").value = profileData.city || "";
+          document.getElementById("profile-state").value = profileData.state || "";
+          document.getElementById("profile-zip").value = profileData.zip || "";
+        });
+        closeProfile.addEventListener("click", function () {
+          profileModal.classList.remove("open");
+        });
+        saveProfile.addEventListener("click", function () {
+          const profileData = {
+            name: document.getElementById("profile-name").value,
+            email: document.getElementById("profile-email").value,
+            phone: document.getElementById("profile-phone").value,
+            address: document.getElementById("profile-address").value,
+            city: document.getElementById("profile-city").value,
+            state: document.getElementById("profile-state").value,
+            zip: document.getElementById("profile-zip").value,
+          };
+          localStorage.setItem("profileData", JSON.stringify(profileData));
+          // Show success message
+          const successMsg = document.createElement("div");
+          successMsg.className =
+            "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 !rounded-lg z-50";
+          successMsg.textContent = "Profile updated successfully";
+          document.body.appendChild(successMsg);
+          setTimeout(() => {
+            successMsg.remove();
+            profileModal.classList.remove("open");
+          }, 2000);
+        });
+        // Search button toggle
+        const searchBtn = document.getElementById("search-btn");
+        const searchContainer = document.getElementById("search-container");
+        searchBtn.addEventListener("click", function () {
+          searchContainer.classList.toggle("hidden");
+        });
+        // Category buttons
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        categoryButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            categoryButtons.forEach((btn) => {
+              btn.classList.remove("active", "bg-primary", "text-white");
+              btn.classList.add("bg-gray-100", "text-gray-700");
+            });
+            this.classList.add("active", "bg-primary", "text-white");
+            this.classList.remove("bg-gray-100", "text-gray-700");
+          });
+        });
+        // Filter modal
+        const filterBtn = document.getElementById("filter-btn");
+        const filterModal = document.getElementById("filter-modal");
+        const closeFilter = document.getElementById("close-filter");
+        filterBtn.addEventListener("click", function () {
+          filterModal.classList.add("open");
+        });
+        closeFilter.addEventListener("click", function () {
+          filterModal.classList.remove("open");
+        });
+        // Close modals when clicking outside
+        window.addEventListener("click", function (event) {
+          if (event.target === filterModal) {
+            filterModal.classList.remove("open");
+          }
+          const checkoutModal = document.getElementById("checkout-modal");
+          if (event.target === checkoutModal) {
+            checkoutModal.classList.remove("open");
+          }
+          const confirmationModal = document.getElementById("confirmation-modal");
+          if (event.target === confirmationModal) {
+            confirmationModal.classList.remove("open");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
